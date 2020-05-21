@@ -6,11 +6,13 @@ import { Provider } from "react-redux";
 
 import App from "./App";
 import { myStore } from "./redux/store";
-import { GlobalStyles } from "./Global.styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+// import { GlobalStyles } from "./Global.styles";
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalStyles />
+    {/* <GlobalStyles /> */}
+    <CssBaseline />
     <Provider store={myStore}>
       <MyRouter>
         <App />
