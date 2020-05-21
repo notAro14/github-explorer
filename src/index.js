@@ -2,16 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as MyRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 
 import App from "./App";
+import { myStore } from "./redux/store";
 import { GlobalStyles } from "./Global.styles";
 
 ReactDOM.render(
   <React.StrictMode>
     <GlobalStyles />
-    <MyRouter>
-      <App />
-    </MyRouter>
+    <Provider store={myStore}>
+      <MyRouter>
+        <App />
+      </MyRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
