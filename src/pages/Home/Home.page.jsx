@@ -3,6 +3,8 @@ import { Counter } from "../../components/index";
 import { searchRepos } from "../../api";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 const HomePage = () => {
   const [keywords, setKeywords] = useState(null);
@@ -10,28 +12,33 @@ const HomePage = () => {
   console.log({ keywords, repos });
 
   return (
-    <div>
-      <TextField
-        id="outlined-basic"
-        label="Keywords"
-        variant="outlined"
-        onChange={(e) => setKeywords(e.target.value)}
-      />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          searchRepos(keywords).then((data) => {
-            console.log(data);
+    <Container>
+      <form>
+        <Box>
+          <TextField
+            id="outlined-basic"
+            label="Keywords"
+            variant="outlined"
+            onChange={(e) => setKeywords(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              searchRepos(keywords).then((data) => {
+                console.log(data);
 
-            setRepos(data.items);
-          });
-        }}
-      >
-        Chercher
-      </Button>
-      <Counter />
-    </div>
+                setRepos(data.items);
+              });
+            }}
+          >
+            Chercher
+          </Button>
+        </Box>
+      </form>
+    </Container>
   );
 };
 
