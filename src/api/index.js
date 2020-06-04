@@ -1,4 +1,4 @@
-export const searchRepos = async (keywords, resultsPerPage = 3) => {
+export const searchRepos = async (keywords, resultsPerPage = 6) => {
   const res = await fetch(
     `https://api.github.com/search/repositories?q=${keywords}&per_page=${resultsPerPage}`
   );

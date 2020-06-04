@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { ButtonAppBar } from "../../components/index";
-import { searchRepos } from "../../api";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
 import Search from "@material-ui/icons/Search";
+import { useHistory } from "react-router-dom";
 
 const HomePage = () => {
+  const history = useHistory();
+
   const [keywords, setKeywords] = useState(null);
-  const [repos, setRepos] = useState([]);
-  console.log({ keywords, repos });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    history.push(`/search/${keywords}`);
+  };
 
   return (
     <div>
       <ButtonAppBar />
-      <Container>
-        <form>
+      <Container maxWidth="sm">
+        <form onSubmit={handleSubmit}>
           <Box m={1}>
             <TextField
               fullWidth
@@ -24,6 +29,7 @@ const HomePage = () => {
               label="Repositories"
               variant="standard"
               onChange={(e) => setKeywords(e.target.value)}
+              required
             />
           </Box>
           <Box m={1}>
@@ -31,13 +37,7 @@ const HomePage = () => {
               variant="outlined"
               color="secondary"
               startIcon={<Search />}
-              onClick={() => {
-                searchRepos(keywords).then((data) => {
-                  console.log(data);
-
-                  setRepos(data.items);
-                });
-              }}
+              type="submit"
             >
               Search
             </Button>
