@@ -1,16 +1,67 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
+import StarIcon from "@material-ui/icons/Star";
+import Link from "@material-ui/core/Link";
+import Avatar from "@material-ui/core/Avatar";
+
 import withLoading from "../withLoading/withLoading.component";
-import { RepositoriesContainer } from "./Repositories.styles";
-import FadeIn from "react-fade-in";
+import {
+  RepositoriesContainer,
+  RepositoryContainer,
+} from "./Repositories.styles";
 
 const Repositories = ({ reposInfo }) => {
   return (
     <RepositoriesContainer>
-      <FadeIn>
-        {reposInfo.items.map((repo) => {
-          return <div key={repo.name}>{repo.name}</div>;
-        })}
-      </FadeIn>
+      {reposInfo.items.map((repo) => {
+        return (
+          <RepositoryContainer key={repo.name}>
+            <Typography variant="h4" color="primary" component="h4">
+              <Link
+                href={repo.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="none"
+              >
+                {repo.name}
+              </Link>
+            </Typography>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Avatar
+                style={{ marginRight: "0.5rem" }}
+                alt={repo.owner.name}
+                src={repo.owner.avatar_url}
+              />
+              <Typography
+                variant="subtitle2"
+                component="p"
+                color="textSecondary"
+              >
+                {repo.owner.login}
+              </Typography>
+            </div>
+            <Typography variant="body1" component="p" color="textPrimary">
+              {repo.description}
+            </Typography>
+            <div>
+              <Typography
+                style={{ display: "flex", alignItems: "center" }}
+                variant="subtitle2"
+                color="secondary"
+                component="p"
+              >
+                <span style={{ marginRight: "0.5rem" }}>
+                  {repo.stargazers_count}
+                </span>{" "}
+                <StarIcon />
+              </Typography>
+              <Typography variant="body2" component="p">
+                {`Forks: ${repo.forks_count} | Issues: ${repo.open_issues_count}`}
+              </Typography>
+            </div>
+          </RepositoryContainer>
+        );
+      })}
     </RepositoriesContainer>
   );
 };

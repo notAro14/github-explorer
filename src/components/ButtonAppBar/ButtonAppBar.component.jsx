@@ -4,6 +4,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
 
@@ -18,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }));
+
+const LogoLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
 
 export default function ButtonAppBar() {
   const classes = useStyles();
@@ -35,7 +42,7 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton> */}
           <Typography variant="h6" className={classes.title}>
-            Github Explorer
+            <LogoLink to="/">Github Explorer</LogoLink>
           </Typography>
           <Button color="inherit">Connect</Button>
         </Toolbar>

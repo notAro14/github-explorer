@@ -1,23 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
-import { BrowserRouter as MyRouter } from "react-router-dom";
-import { Provider } from "react-redux";
 
 import App from "./App";
-import { myStore } from "./redux/store";
-import CssBaseline from "@material-ui/core/CssBaseline";
-// import { GlobalStyles } from "./Global.styles";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <GlobalStyles /> */}
-    <CssBaseline />
-    <Provider store={myStore}>
-      <MyRouter>
-        <App />
-      </MyRouter>
-    </Provider>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
