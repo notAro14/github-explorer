@@ -15,7 +15,7 @@ const Repositories = ({ reposInfo }) => {
     <RepositoriesContainer>
       {reposInfo.items.map((repo) => {
         return (
-          <RepositoryContainer key={repo.name}>
+          <RepositoryContainer key={repo.full_name}>
             <Typography variant="h4" color="primary" component="h4">
               <Link
                 href={repo.html_url}
@@ -27,11 +27,17 @@ const Repositories = ({ reposInfo }) => {
               </Link>
             </Typography>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Avatar
-                style={{ marginRight: "0.5rem" }}
-                alt={repo.owner.name}
-                src={repo.owner.avatar_url}
-              />
+              <Link
+                href={repo.owner.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Avatar
+                  style={{ marginRight: "0.5rem" }}
+                  alt={repo.owner.name}
+                  src={repo.owner.avatar_url}
+                />
+              </Link>
               <Typography
                 variant="subtitle2"
                 component="p"
