@@ -1,51 +1,58 @@
-import React, { useState } from "react";
-import { ButtonAppBar } from "../../components/index";
+import React from "react";
+import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import Search from "@material-ui/icons/Search";
-import { useHistory } from "react-router-dom";
+import { searchRepos } from "../../api";
+import {
+  ButtonAppBar,
+  Repositories,
+  RapidSearch,
+} from "../../components/index";
 
-const HomePage = () => {
-  const history = useHistory();
+class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      reposInfo: null,
+      link: "",
+    };
+  }
 
-  const [keywords, setKeywords] = useState(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    history.push(`/search/${keywords}`);
+  _fetchRepos = async () => {
+    const { data, link } = await searchRepos(
+      `https://api.github.com/search/repositories?q=stars:>100000&per_page=10`
+    );
+    this.setState({ reposInfo: data, link });
   };
 
-  return (
-    <div>
-      <ButtonAppBar />
-      <Container maxWidth="sm">
-        <form onSubmit={handleSubmit}>
-          <Box m={1}>
-            <TextField
-              fullWidth
-              id="outlined-basic"
-              label="Repositories"
-              variant="standard"
-              onChange={(e) => setKeywords(e.target.value)}
-              required
-            />
-          </Box>
-          <Box m={1}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<Search />}
-              type="submit"
-            >
-              Search
-            </Button>
-          </Box>
-        </form>
-      </Container>
-    </div>
-  );
-};
+  componentDidMount() {
+    this._fetchRepos();
+  }
+  render() {
+    console.log(this.state.link);
+
+    return (
+      <div>
+        <ButtonAppBar />
+        <Container maxWidth="sm">
+          <RapidSearch />
+          {/* <Divider /> */}
+          <Typography
+            style={{ margin: "1rem", textAlign: "center" }}
+            variant="h4"
+            color="primary"
+            component="h2"
+          >
+            Most popular repositories
+          </Typography>
+
+          <Repositories
+            reposInfo={this.state.reposInfo}
+            isLoading={!this.state.reposInfo}
+          />
+        </Container>
+      </div>
+    );
+  }
+}
 
 export default HomePage;

@@ -1,7 +1,11 @@
-export const searchRepos = async (keywords, resultsPerPage = 6) => {
-  const res = await fetch(
-    `https://api.github.com/search/repositories?q=${keywords}&per_page=${resultsPerPage}`
-  );
+const token = "815d56fc1be8e7ffbdde7c7ec2d5c3e20eae2904";
+const headers = {
+  Authorization: `Token ${token}`,
+};
+
+export const searchRepos = async (url) => {
+  const res = await fetch(url, { method: "GET", headers });
+  const link = res.headers.get("link");
   const data = await res.json();
-  return data;
+  return { link, data };
 };

@@ -13,7 +13,7 @@ const withLoading = (WrappedComponent) => {
   const Loading = ({ isLoading, ...otherProps }) => {
     return isLoading ? (
       <LoadingContainer>
-        <ReactLoading type="spinningBubbles" color="#F50057" />
+        <ReactLoading type="spinningBubbles" color="#FFAB0F" />
       </LoadingContainer>
     ) : (
       <WrappedComponent {...otherProps} />
