@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 import { searchRepos } from "../../api";
 import {
   ButtonAppBar,
@@ -13,29 +14,27 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       reposInfo: null,
-      link: "",
+      links: "",
+      url: `https://api.github.com/search/repositories?q=stars:>100000&per_page=5`,
     };
   }
 
-  _fetchRepos = async () => {
-    const { data, link } = await searchRepos(
-      `https://api.github.com/search/repositories?q=stars:>100000&per_page=10`
-    );
-    this.setState({ reposInfo: data, link });
+  _fetchRepos = async (url) => {
+    const { data, links } = await searchRepos(url);
+    this.setState({ reposInfo: data, links });
   };
 
   componentDidMount() {
-    this._fetchRepos();
+    this._fetchRepos(this.state.url);
   }
   render() {
-    console.log(this.state.link);
+    const { links, reposInfo } = this.state;
 
     return (
       <div>
         <ButtonAppBar />
         <Container maxWidth="sm">
           <RapidSearch />
-          {/* <Divider /> */}
           <Typography
             style={{ margin: "1rem", textAlign: "center" }}
             variant="h4"
@@ -45,10 +44,30 @@ class HomePage extends React.Component {
             Most popular repositories
           </Typography>
 
-          <Repositories
-            reposInfo={this.state.reposInfo}
-            isLoading={!this.state.reposInfo}
-          />
+          <Repositories reposInfo={reposInfo} isLoading={!reposInfo} />
+          {links.length ? (
+            <div>
+              {links.map((link, index) => {
+                const { title, url } = link;
+                return (
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.scrollTo(0, 0);
+                      this.setState({ reposInfo: null });
+                      this._fetchRepos(url);
+                    }}
+                    key={index}
+                    variant="outlined"
+                    color="secondary"
+                    style={{ margin: "0.75rem" }}
+                  >
+                    {title}
+                  </Button>
+                );
+              })}
+            </div>
+          ) : null}
         </Container>
       </div>
     );
