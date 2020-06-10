@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 
 import { increment, decrement } from "../../redux/Counter/Counter.actions";
 import { selectCounter } from "../../redux/Counter/Counter.selectors";
@@ -14,8 +15,8 @@ const Counter = ({ counter, increment, decrement }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  counter: selectCounter(state),
+const mapStateToProps = createStructuredSelector({
+  counter: selectCounter,
 });
 const mapDispatchToProps = (dispatch) => ({
   increment: () => dispatch(increment()),

@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -9,34 +11,29 @@ import {
   Repositories,
   RapidSearch,
 } from "../../components/index";
-import { searchRepos } from "../../api";
 
-const RepositoriesPage = ({ match }) => {
-  const {
+import { fetchRepos } from "../../redux/FetchRepositories/FetchRepositories.actions";
+
+import {
+  selectIsfetching,
+  selectError,
+  selectLinks,
+  selectReposInfo,
+} from "../../redux/FetchRepositories/FetchRepositories.selectors";
+
+const RepositoriesPage = ({
+  match: {
     params: { keywords },
-  } = match;
-
-  const [url, setUrl] = useState(
-    `https://api.github.com/search/repositories?q=${keywords}&per_page=5`
-  );
-
-  const [reposInfo, setReposInfo] = useState(null);
-  const [links, setLinks] = useState([]);
-
+  },
+  isFetching,
+  fetchRepos,
+  links,
+  reposInfo,
+}) => {
   useEffect(() => {
-    const fetchRepos = async (url) => {
-      const { links, data } = await searchRepos(url);
-      console.log(links);
-
-      if (reposInfo) {
-        setReposInfo(null);
-      }
-      window.scrollTo(0, 0);
-      setLinks(links);
-      setReposInfo(data);
-    };
+    const url = `https://api.github.com/search/repositories?q=${keywords}&per_page=10`;
     fetchRepos(url);
-  }, [url]);
+  }, [fetchRepos, keywords]);
 
   return (
     <div>
@@ -53,9 +50,10 @@ const RepositoriesPage = ({ match }) => {
             results
           </Typography>
         ) : null}
+        {!isFetching && !reposInfo ? null : (
+          <Repositories reposInfo={reposInfo} isLoading={isFetching} />
+        )}
 
-        <Repositories reposInfo={reposInfo} isLoading={!reposInfo} />
-        <hr />
         {links.length ? (
           <div>
             {links.map((link, index) => {
@@ -64,12 +62,17 @@ const RepositoriesPage = ({ match }) => {
                 <Button
                   onClick={(e) => {
                     e.preventDefault();
-                    setUrl(url);
+                    window.scroll({
+                      top: 100,
+                      left: 0,
+                      behavior: "smooth",
+                    });
+                    fetchRepos(url);
                   }}
                   key={index}
                   variant="outlined"
                   color="secondary"
-                  style={{ margin: "0.75rem" }}
+                  style={{ margin: "0.5rem" }}
                 >
                   {title}
                 </Button>
@@ -82,4 +85,15 @@ const RepositoriesPage = ({ match }) => {
   );
 };
 
-export default RepositoriesPage;
+const mapStateToProps = createStructuredSelector({
+  reposInfo: selectReposInfo,
+  isFetching: selectIsfetching,
+  error: selectError,
+  links: selectLinks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchRepos: (url) => dispatch(fetchRepos(url)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepositoriesPage);
