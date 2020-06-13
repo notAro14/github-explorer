@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import StarIcon from "@material-ui/icons/Star";
 import Link from "@material-ui/core/Link";
 import Avatar from "@material-ui/core/Avatar";
+import Chip from "@material-ui/core/Chip";
 
 import withLoading from "../withLoading/withLoading.component";
 import {
@@ -65,6 +66,22 @@ const Repositories = ({ reposInfo }) => {
                 <Typography variant="body2" component="p">
                   {`Forks: ${repo.forks_count} | Issues: ${repo.open_issues_count}`}
                 </Typography>
+                {repo.language ? (
+                  <Chip
+                    style={{ margin: "0.5rem" }}
+                    variant="outlined"
+                    label={repo.language}
+                    color="secondary"
+                  />
+                ) : null}
+                {/* {repo.license.spdx_id !== "NOASSERTION" ? (
+                  <Chip
+                    style={{ margin: "0.5rem" }}
+                    variant="outlined"
+                    label={repo.license.spdx_id}
+                    color="primary"
+                  />
+                ) : null} */}
               </div>
             </RepositoryContainer>
           );

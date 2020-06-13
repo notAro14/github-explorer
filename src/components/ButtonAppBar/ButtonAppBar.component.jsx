@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 
@@ -25,6 +25,7 @@ const LogoLink = styled(Link)`
 `;
 
 export default function ButtonAppBar() {
+  const history = useHistory();
   const classes = useStyles();
 
   return (
@@ -34,7 +35,11 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             <LogoLink to="/">GithubExplorer</LogoLink>
           </Typography>
-          <Button variant="contained" color="secondary">
+          <Button
+            onClick={() => history.push("/advance")}
+            variant="contained"
+            color="secondary"
+          >
             Advanced search
           </Button>
         </Toolbar>
