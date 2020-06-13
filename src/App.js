@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { myStore } from "./redux/store";
-import { HomePage, RepositoriesPage } from "./pages";
+import { HomePage, RepositoriesPage, AdvanceSearchPage } from "./pages";
 import { theme } from "./utils/Theme";
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route path="/search/:keywords" component={RepositoriesPage} />
+              <Route path="/advance" component={AdvanceSearchPage} />
               <Route>
                 <h3>Not found</h3>
               </Route>
