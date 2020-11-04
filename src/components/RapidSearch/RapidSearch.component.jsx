@@ -34,7 +34,8 @@ const RapidSearch = () => {
         Rapid search
       </Typography>
       <FormContainer
-        onSubmit={() => {
+        onSubmit={(e) => {
+          e.preventDefault()
           history.push(`/search/${keywords}`)
         }}
       >
