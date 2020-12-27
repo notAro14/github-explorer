@@ -4,15 +4,15 @@ Explore Github, search repositories and users
 
 ## TODO
 
-- Search for users
+-[] Search for users
 
 ## Install
 
 ```bash
-npm i
-npm start
+yarn
+yarn start
 ```
 
 ## Link
 
-Live : https://github-explorer-rho.now.sh
+Live [here](https://github-explorer-rho.now.sh)
