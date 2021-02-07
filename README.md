@@ -4,7 +4,7 @@ Explore Github, search repositories and users
 
 ## TODO
 
--[ ] Search for users
+- [ ] Search for users
 
 ## Install
 
